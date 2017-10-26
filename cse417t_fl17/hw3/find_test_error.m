@@ -8,5 +8,12 @@ function [ test_error ] = find_test_error( w, X, y )
 %   The function returns the error on the test examples as a fraction. The
 %   hypothesis is assumed to be of the form (sign ( [1 x(n,:)] * w )
 
+m = size(X,0);
+    pad = ones([m 1]);
+    
+    h = [pad X]*w;
+    y_test = double(exp(h)./(1 + exp(h)) >= 0.5);
+    y_test(y_test == 0) = -1;
+    
+    test_error = sum(y_test ~= y)/length(y);
 end
-
